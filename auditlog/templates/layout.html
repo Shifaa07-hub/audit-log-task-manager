@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+        Audit Logging System
+        {% endblock %}
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="cdn.jsdelivr.net">
+
+    
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'home' %}">Audit Log</a>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'task' %}">Task Manager</a>
+            </li>            
+            <form method="GET" action="{% url 'search' %}" class="d-flex" role="search">
+                <input 
+                    class="form-control me-2" 
+                    type="task" 
+                    name="q"
+                    placeholder="Search task..." 
+                    value="{{ query }}"
+                >
+
+                <button class="btn btn-outline-success" type="submit">Search</button>
+
+            </form>   
+            <li class="nav-item">
+                <form method="post" action="{% url 'log_out' %}" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="nav-link btn btn-link text-danger p-0 ">
+                        Logout
+                    </button>
+                </form>
+            </li>
+       
+        </div>
+    </nav>
+    {% block content %}{% endblock %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html> 

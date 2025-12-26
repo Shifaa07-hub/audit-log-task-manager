@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>TASK MANAGER</h1>
+    <a class="btn btn-outline-primary m-2" href="{% url 'add' %}">Add a task</a>
+
+    <div class="card mt-2 shadow-sm bg-dark text-white border border-secondary">
+        <div class="card-body">
+
+            {% if tasks %}
+                {% for task in tasks %}
+                    <div class="d-flex align-items-center justify-content-between py-2 border-bottom border-light">
+                        <div class="form-check d-flex align-items-center">
+                            <form method="post" action="{% url 'toggle_task' task.id %}">
+                                {% csrf_token %}
+                                <input  
+                                        class="form-check-input me-2"
+                                        type="checkbox"
+                                        onchange="this.form.submit()"
+                                        style="border: 2px solid white; background-color: transparent;"
+                                        {% if task.completed %}checked{% endif %}
+                                >
+                            </form>
+                            <label class="form-check-label">
+                                {{ task.task }}
+                            </label>
+                        </div>
+
+                        <div class="dropdown">
+                            <button class="btn btn-sm" type="button" data-bs-toggle="dropdown">
+                                ⋮
+                            </button>
+
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="{% url 'edit' task.id %}">Edit</a></li>
+                                <li><a class="dropdown-item text-danger" href="{% url 'delete' task.id %}">Delete</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-center text-secondary m-0">
+                    {% if query %}
+                        No tasks found for "{{ query }}"
+                    {% else %}
+                        No tasks yet. Add one.
+                    {% endif %}
+                </p>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

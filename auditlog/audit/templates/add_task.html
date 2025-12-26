@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h2>
+    {% if form.instance.pk %} Edit Task {% else %} Add Task {% endif %}
+
+    <form method="post" class="form mt-4">
+        {% csrf_token %}
+        {{form}}
+        <button class="btn btn-warning" type="submit">Submit</button>
+        <a href="{% url 'task' %}" class="btn btn-warning">Back to Task Manager</a>
+    </form>
+
+</h2>
+{% endblock %}
